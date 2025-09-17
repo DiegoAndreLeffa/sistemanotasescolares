@@ -73,7 +73,7 @@ namespace App.Services
 		{
 			return _disciplinas;
 		}
-		
+
 		/// <summary>
 		/// Calcula a média de um aluno em uma disciplina específica.
 		/// </summary>
@@ -90,6 +90,24 @@ namespace App.Services
 			}
 
 			return notasDoAlunoNaDisciplina.Average();
+		}
+		
+		private const double MediaAprovacao = 7.0;
+
+		/// <summary>
+		/// Verifica se um aluno está aprovado em uma disciplina.
+		/// </summary>
+		/// <returns>True se aprovado, False se reprovado, Null se não há média.</returns>
+		public bool? VerificarAprovacao(int alunoId, int disciplinaId)
+		{
+			var media = CalcularMedia(alunoId, disciplinaId);
+
+			if (!media.HasValue)
+			{
+				return null;
+			}
+
+			return media.Value >= MediaAprovacao;
 		}
     }
 }
