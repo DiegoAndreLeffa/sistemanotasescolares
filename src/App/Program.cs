@@ -34,13 +34,21 @@ namespace App
 			{
 				Console.WriteLine($"ID: {disciplina.Id}, Nome: {disciplina.Nome}");
 			}
-			
+
 			// Calculando e exibindo a média
 			Console.WriteLine("\n--- Média dos Alunos ---");
 			var mediaJoaoMatematica = escolaService.CalcularMedia(1, 101);
 			if (mediaJoaoMatematica.HasValue)
 			{
 				Console.WriteLine($"Média do João em Matemática: {mediaJoaoMatematica.Value:F2}");
+			}
+			
+			Console.WriteLine("\n--- Status de Aprovação ---");
+			var statusJoao = escolaService.VerificarAprovacao(1, 101);
+			if (statusJoao.HasValue)
+			{
+				string status = statusJoao.Value ? "Aprovado" : "Reprovado";
+				Console.WriteLine($"Status do João em Matemática: {status}");
 			}
         }
     }
