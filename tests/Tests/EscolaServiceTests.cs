@@ -55,7 +55,7 @@ namespace Tests
 			Assert.Single(disciplinas);
 			Assert.Equal("História", disciplinas.First().Nome);
 		}
-		
+
 		[Fact]
 		public void LancarNota_DeveAdicionarNota()
 		{
@@ -103,6 +103,26 @@ namespace Tests
 
 			// Assert
 			Assert.Null(media);
+		}
+		
+		[Theory]
+		[InlineData(7.0, true)]   // Média igual a 7 -> Aprovado
+		[InlineData(8.5, true)]   // Média acima de 7 -> Aprovado
+		[InlineData(6.9, false)]  // Média abaixo de 7 -> Reprovado
+		public void VerificarAprovacao_ComMediasDiferentes_DeveRetornarStatusCorreto(double media, bool esperado)
+		{
+			// Arrange
+			var service = new EscolaService();
+			service.AdicionarAluno(new Aluno(1, "Aluno"));
+			service.AdicionarDisciplina(new Disciplina(101, "Disciplina"));
+			// Usamos uma única nota para forçar a média
+			service.LancarNota(new Nota(1, 101, media));
+
+			// Act
+			var status = service.VerificarAprovacao(1, 101);
+
+			// Assert
+			Assert.Equal(esperado, status);
 		}
     }
 }
